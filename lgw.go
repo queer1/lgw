@@ -18,6 +18,7 @@ func legalizer() func() string {
 	pad  := 0
 	var buf bytes.Buffer
 	return func() string {
+		if pad > len(colors) { pad = 0 }
 		buf.Reset()
 		for i,c := range gw {
 			color := colors[(i+pad) % len(colors)]
