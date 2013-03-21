@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"bytes"
+	// "bytes"
 	"github.com/foize/go.sgr"
 	"os"
 	"os/signal"
@@ -18,10 +18,13 @@ func legalizer() func() string {
 	pad  := 0
 	return func() string {
 		if pad > len(colors) { pad -= len(colors) }
-		var buf bytes.Buffer
-		for i,c := range gw { buf.WriteString(sgr.FgColor(colors[(i+pad) % len(colors)])+string(c)) }
+		var buf = ""
+		//var buf = bytes.Buffer
+		for i,c := range gw { buf+=(sgr.FgColor(colors[(i+pad) % len(colors)])+string(c)) }
+		// for i,c := range gw { buf.WriteString(sgr.FgColor(colors[(i+pad) % len(colors)])+string(c)) }
 		pad += 1;
-		return buf.String()
+		return buf
+		//return buf.String()
 	}
 }
 
