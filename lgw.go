@@ -35,14 +35,15 @@ func main() {
 	go func(){
 		for c := range c {
 			if c == os.Interrupt {
-				fmt.Printf("\n")
+				fmt.Print("\x1b[?25h");
+				fmt.Print("\n")
 				os.Exit(0)
 			}
 		}
 	}()
 
 	lgw := legalizer()
-
+	fmt.Print("\x1b[?25l")
 	for {
 		fmt.Print("\r\033[0K")
 		fmt.Print(lgw())
