@@ -25,7 +25,7 @@ func legalizer() func() string {
 			buf.WriteString(string(c))
 		}
 		pad += 1;
-		if pad > len(colors) { pad = 0 }
+		if pad >= len(colors) { pad = 0 }
 		return buf.String()
 	}
 }
