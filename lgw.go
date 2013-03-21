@@ -16,16 +16,10 @@ var (
 
 func legalizer() func() string {
 	pad  := 0
-	var buf bytes.Buffer
 	return func() string {
 		if pad > len(colors) { pad -= len(colors) }
-		buf.Reset()
-		for i,c := range gw {
-			color := colors[(i+pad) % len(colors)]
-			buf.WriteString(sgr.FgColor(color))
-			buf.WriteString(string(c))
-		}
-
+		var buf bytes.Buffer
+		for i,c := range gw { buf.WriteString(sgr.FgColor(colors[(i+pad) % len(colors)])+string(c)) }
 		pad += 1;
 		return buf.String()
 	}
@@ -37,8 +31,7 @@ func main() {
 	go func(){
 		for c := range c {
 			if c == os.Interrupt {
-				fmt.Print("\x1b[?25h");
-				fmt.Print("\n")
+				fmt.Print("\x1b[?25h\n")
 				os.Exit(0)
 			}
 		}
@@ -47,8 +40,7 @@ func main() {
 	lgw := legalizer()
 	fmt.Print("\x1b[?25l")
 	for {
-		fmt.Print("\r\033[0K")
-		fmt.Print(lgw())
+		fmt.Print("\r\033[0K"+lgw())
 		time.Sleep(100 * time.Millisecond)
 	}
 }
