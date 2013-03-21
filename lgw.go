@@ -18,12 +18,14 @@ func legalizer() func() string {
 	pad  := 0
 	var buf bytes.Buffer
 	return func() string {
+		if pad > len(colors) { pad -= len(colors) }
 		buf.Reset()
 		for i,c := range gw {
 			color := colors[(i+pad) % len(colors)]
 			buf.WriteString(sgr.FgColor(color))
 			buf.WriteString(string(c))
 		}
+
 		pad += 1;
 		return buf.String()
 	}
